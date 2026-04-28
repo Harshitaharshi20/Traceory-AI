@@ -5,9 +5,11 @@ on:
     branches:
       - main
 
-# Explicitly grant write permissions so the Action can push to the gh-pages branch
+# Explicitly grant all necessary permissions for GitHub Pages deployment
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build_and_deploy:
@@ -21,7 +23,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.24.0' # Matches your local setup
+          flutter-version: '3.24.0'
 
       - name: Install Dependencies
         working-directory: ./frontend
@@ -29,7 +31,7 @@ jobs:
 
       - name: Build Web
         working-directory: ./frontend
-        # The base-href MUST match your GitHub repository name exactly
+        # Ensure base-href matches repo name
         run: flutter build web --release --base-href "/Traceory-AI/"
 
       - name: Deploy to GitHub Pages
